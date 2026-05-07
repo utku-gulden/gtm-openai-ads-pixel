@@ -1,0 +1,21 @@
+# GTM Community Template Gallery metadata
+#
+# Reference: https://developers.google.com/tag-platform/tag-manager/templates/gallery
+#
+# This file lives at the root of the GitHub repository whose contents are
+# pointed to by a Community Template submission.
+#
+# Created by: Utku Gulden  (https://www.linkedin.com/in/utku-gulden/)
+# Brand id  : utkugulden
+
+homepage: https://github.com/utkugulden/gtm-openai-ads-pixel
+documentation: https://github.com/utkugulden/gtm-openai-ads-pixel/blob/main/README.md
+versions:
+  - sha: REPLACE_WITH_GIT_TAG_OR_COMMIT_SHA
+    changeNotes: |
+      Initial public release. GTM Community Template for the OpenAI Ads
+      Measurement Pixel (oaiq). Supports all 10 standard events plus custom
+      events with the four official data shapes (contents, customer_action,
+      plan_enrollment, custom), single or multi-product contents arrays,
+      event_id and custom_event_name forwarding inside eventOptions, and
+      arbitrary additional properties merged into eventProps.

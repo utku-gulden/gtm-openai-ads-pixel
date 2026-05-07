@@ -1,0 +1,135 @@
+{
+  "_comment": "Example tag configurations for the OpenAI Ads Pixel GTM template. Each block represents the values you would enter in the template UI for a given use case. These are illustrative — paste the relevant values into the GTM tag editor; this file is not auto-imported.",
+  "1_init_pageview_all_pages": {
+    "description": "Recommended setup for 99% of sites. One tag fires on All Pages, loads the SDK, runs init, and fires page_viewed once per pageview. SPA route changes should fire a separate History Change trigger reusing this same tag (the SDK is deduped automatically).",
+    "fields": {
+      "tagType": "init_pageview",
+      "pixelId": "1234567890"
+    },
+    "trigger": "All Pages (Page View) + History Change (for SPAs)"
+  },
+  "2_purchase_with_ga4_ecommerce_mapping": {
+    "description": "Fires order_created on the purchase confirmation page using GA4's standard `ecommerce` dataLayer object. The template auto-maps transaction_id -> event_id, value -> amount (converted to integer cents), currency, and items[] -> contents[].",
+    "fields": {
+      "tagType": "event",
+      "pixelId": "1234567890",
+      "eventType": "standard",
+      "standardEvent": "order_created",
+      "ecommerceMappingEnabled": true,
+      "ecommerceSource": "ga4",
+      "currencyDecimals": 2
+    },
+    "trigger": "Custom Event: purchase",
+    "expected_payload": {
+      "eventName": "order_created",
+      "eventProps": {
+        "type": "ecommerce",
+        "amount": 25999,
+        "currency": "USD",
+        "contents": [
+          {
+            "id": "SKU_123",
+            "name": "Blue T-Shirt",
+            "quantity": 2,
+            "amount": 12999,
+            "currency": "USD"
+          }
+        ]
+      },
+      "eventOptions": {
+        "event_id": "T_12345"
+      }
+    }
+  },
+  "3_addtocart_with_manual_fields": {
+    "description": "items_added event with manually specified amount and currency (no ecommerce object on the page). Useful for non-standard cart implementations.",
+    "fields": {
+      "tagType": "event",
+      "pixelId": "1234567890",
+      "eventType": "standard",
+      "standardEvent": "items_added",
+      "ecommerceMappingEnabled": false,
+      "amount": 4999,
+      "currency": "USD",
+      "currencyDecimals": 0,
+      "manualContents": [
+        {
+          "id": "{{DLV - product.sku}}",
+          "name": "{{DLV - product.name}}",
+          "content_type": "product",
+          "quantity": 1,
+          "amount": 4999,
+          "currency": "USD"
+        }
+      ]
+    },
+    "trigger": "Click: Add to Cart Button"
+  },
+  "4_lead_form_submission": {
+    "description": "lead_created event for a form submission. Demonstrates the customer_action data shape (no contents[]).",
+    "fields": {
+      "tagType": "event",
+      "pixelId": "1234567890",
+      "eventType": "standard",
+      "standardEvent": "lead_created",
+      "ecommerceMappingEnabled": false,
+      "eventDataType": "marketing",
+      "eventId": "{{DLV - form.submission_id}}"
+    },
+    "trigger": "Custom Event: form_submitted"
+  },
+  "5_custom_event_with_parameters": {
+    "description": "Custom event with arbitrary parameters. Note that custom_event_name goes into eventOptions automatically — do NOT add it as a custom parameter.",
+    "fields": {
+      "tagType": "event",
+      "pixelId": "1234567890",
+      "eventType": "custom",
+      "customEventName": "video_completed",
+      "amount": 0,
+      "customParams": [
+        {
+          "name": "video_id",
+          "value": "{{DLV - video.id}}"
+        },
+        {
+          "name": "video_duration",
+          "value": "{{DLV - video.duration_sec}}"
+        },
+        {
+          "name": "completion_rate",
+          "value": "100"
+        }
+      ]
+    },
+    "trigger": "Custom Event: video_complete"
+  },
+  "6_subscription_with_advanced_matching": {
+    "description": "subscription_created with advanced matching (hashed email + phone + external_id). The template SHA-256-hashes plaintext values automatically; pre-hashed 64-char hex values pass through unchanged.",
+    "fields": {
+      "tagType": "event",
+      "pixelId": "1234567890",
+      "eventType": "standard",
+      "standardEvent": "subscription_created",
+      "amount": 999,
+      "currency": "USD",
+      "currencyDecimals": 2,
+      "advancedMatchingEnabled": true,
+      "userEmail": "{{DLV - user.email}}",
+      "userPhone": "{{DLV - user.phone}}",
+      "userExternalId": "{{DLV - user.id}}",
+      "planId": "premium_monthly"
+    },
+    "trigger": "Custom Event: subscription_started"
+  },
+  "7_multiple_pixels_init": {
+    "description": "Two separate tags, one per pixel ID, both firing on All Pages. The SDK is loaded once and deduped via templateStorage; each pixel runs its own init.",
+    "tag_a": {
+      "tagType": "init_pageview",
+      "pixelId": "1111111111"
+    },
+    "tag_b": {
+      "tagType": "init_pageview",
+      "pixelId": "2222222222"
+    }
+  }
+}
