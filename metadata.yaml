@@ -11,7 +11,7 @@
 homepage: https://github.com/utku-gulden/gtm-openai-ads-pixel
 documentation: https://github.com/utku-gulden/gtm-openai-ads-pixel/blob/main/README.md
 versions:
-  - sha: e1369050736e63aa40fab571d6f3b3a03bbc6e6b
+  - sha: 5735d72887fce98caeaad324fe375b58f763010e
     changeNotes: |
       Initial public release. GTM Community Template for the OpenAI Ads
       Measurement Pixel (oaiq). Supports all 10 standard events plus custom
